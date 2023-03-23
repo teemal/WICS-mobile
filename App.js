@@ -6,6 +6,8 @@ import * as Location from 'expo-location';
 export default function App() {
   const [location, setLocation] = useState();
 
+  // Test
+
   useEffect(() => {
     const getPermissions = async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
