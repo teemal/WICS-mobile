@@ -5,6 +5,10 @@ import * as Location from 'expo-location';
 
 export default function App() {
   const [location, setLocation] = useState();
+  // Create lat/long states?
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
+  
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -14,12 +18,28 @@ export default function App() {
         return;
       }
 
-      let currentLocation = await Location.getCurrentPositionAsync({});
-      // console.log("Location:");
-      // console.log(currentLocation);
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      // console.log(location);
+
+      setLatitude(location.coords.latitude);
+      setLongitude(location.coords.longitude);
+      
     };
     getPermissions();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const test = "https://yayw3a47malmotovh5isklmvly0pyvaj.lambda-url.us-east-1.on.aws/?lat=" + latitude + "&long=" + longitude;
+      // console.log(test);
+      const res = await fetch(test)
+      const data = await res.text()
+      console.log(data)
+    }    
+    fetchData();
+  }, [latitude, longitude]);
+
 
   return (
     <View style={styles.container}>
